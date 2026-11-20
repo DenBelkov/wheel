@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Spinning Wheel</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f0f2f5;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 { margin-bottom: 20px; }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+            align-items: flex-start;
+            max-width: 1000px;
+            width: 100%;
+        }
+        .wheel-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        .wheel-wrapper {
+            position: relative;
+            width: 420px;
+            height: 420px;
+            border-radius: 50%;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            overflow: hidden;
+            background: #fff;
+        }
+        /* The spinning container holds both the image and the canvas */
+        #wheel-spinner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+        }
+        /* Background image/GIF that spins with the wheel */
+        #wheel-bg-media {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+            z-index: 1;
+        }
+        /* Canvas sits on top of the image */
+        #wheel-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2;
+        }
+        /* Pointer at the top of the wheel */
+        .pointer {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 30px solid #e74c3c;
+            z-index: 10;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+        #spin-btn {
+            margin-top: 25px;
+            padding: 15px 40px;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            background-color: #2ecc71;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);
+            transition: background 0.2s, transform 0.1s;
+        }
+        #spin-btn:hover { background-color: #27ae60; }
+        #spin-btn:active { transform: scale(0.96); }
+        #spin-btn:disabled { background-color: #95a5a6; cursor: not-allowed; }
+        
+        .controls {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label { font-weight: bold; font-size: 14px; }
+        textarea {
+            width: 100%;
+            height: 180px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+        .file-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        #winner-display {
+            margin-top: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            min-height: 32px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Wheel of Options</h1>
+
+    <div class="container">
+        <div class="wheel-section">
+            <div class="pointer"></div>
+            <div class="wheel-wrapper">
+                <div id="wheel-spinner">
+                    <img id="wheel-bg-media" src="" alt="Wheel Background">
+                    <canvas id="wheel-canvas" width="420" height="420"></canvas>
+                </div>
+            </div>
+            <button id="spin-btn">SPIN</button>
+            <div id="winner-display"></div>
+        </div>
+
+        <div class="controls">
+            <div>
+                <label for="options-input">Options (one per line):</label>
+                <textarea id="options-input" placeholder="Enter options here...">Option 1&#10;Option 2&#10;Option 3&#10;Option 4</textarea>
+            </div>
+
+            <div class="file-group">
+                <label for="image-upload">Upload Background Image / GIF:</label>
+                <input type="file" id="image-upload" accept="image/*">
+            </div>
+
+            <div class="file-group">
+                <label for="json-upload">Or Load JSON File Manually:</label>
+                <input type="file" id="json-upload" accept=".json">
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
