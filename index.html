@@ -22,7 +22,7 @@
             gap: 40px;
             justify-content: center;
             align-items: flex-start;
-            max-width: 1000px;
+            max-width: 1100px;
             width: 100%;
         }
         .wheel-section {
@@ -33,21 +33,19 @@
         }
         .wheel-wrapper {
             position: relative;
-            width: 420px;
-            height: 420px;
+            width: 440px;
+            height: 440px;
             border-radius: 50%;
             box-shadow: 0 8px 20px rgba(0,0,0,0.15);
             overflow: hidden;
             background: #fff;
         }
-        /* The spinning container holds both the image and the canvas */
         #wheel-spinner {
             width: 100%;
             height: 100%;
             position: relative;
             transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99);
         }
-        /* Background image/GIF that spins with the wheel */
         #wheel-bg-media {
             position: absolute;
             top: 0;
@@ -58,14 +56,12 @@
             display: none;
             z-index: 1;
         }
-        /* Canvas sits on top of the image */
         #wheel-canvas {
             position: absolute;
             top: 0;
             left: 0;
             z-index: 2;
         }
-        /* Pointer at the top of the wheel */
         .pointer {
             position: absolute;
             top: -15px;
@@ -101,27 +97,43 @@
             padding: 25px;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            width: 320px;
+            width: 360px;
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
-        label { font-weight: bold; font-size: 14px; }
+        label { font-weight: bold; font-size: 13px; color: #2c3e50; }
         textarea {
             width: 100%;
-            height: 180px;
+            height: 130px;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 6px;
-            font-size: 15px;
+            font-size: 14px;
             resize: vertical;
             box-sizing: border-box;
         }
-        .file-group {
+        select, input[type="file"] {
+            font-size: 13px;
+            padding: 6px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background: #fafafa;
+        }
+        .control-box {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+        .radio-group {
             display: flex;
             flex-direction: column;
             gap: 5px;
+            font-size: 13px;
         }
+        .radio-group label { font-weight: normal; cursor: pointer; }
         #winner-display {
             margin-top: 15px;
             font-size: 24px;
@@ -142,7 +154,7 @@
             <div class="wheel-wrapper">
                 <div id="wheel-spinner">
                     <img id="wheel-bg-media" src="" alt="Wheel Background">
-                    <canvas id="wheel-canvas" width="420" height="420"></canvas>
+                    <canvas id="wheel-canvas" width="440" height="440"></canvas>
                 </div>
             </div>
             <button id="spin-btn">SPIN</button>
@@ -152,16 +164,38 @@
         <div class="controls">
             <div>
                 <label for="options-input">Options (one per line):</label>
-                <textarea id="options-input" placeholder="Enter options here...">Option 1&#10;Option 2&#10;Option 3&#10;Option 4</textarea>
+                <textarea id="options-input" placeholder="Leave empty before connecting a folder to auto-fill options..."></textarea>
             </div>
 
-            <div class="file-group">
-                <label for="image-upload">Upload Background Image / GIF:</label>
-                <input type="file" id="image-upload" accept="image/*">
+            <div class="control-box">
+                <label for="folder-upload">1. Connect Picture Folder (matches filenames):</label>
+                <input type="file" id="folder-upload" webkitdirectory directory multiple>
+                
+                <div class="radio-group">
+                    <label>
+                        <input type="radio" name="display-mode" value="segments" checked>
+                        Show matched pictures on wheel segments
+                    </label>
+                    <label>
+                        <input type="radio" name="display-mode" value="flash">
+                        Flash full-wheel picture of pointed option
+                    </label>
+                </div>
             </div>
 
-            <div class="file-group">
-                <label for="json-upload">Or Load JSON File Manually:</label>
+            <div class="control-box">
+                <label>2. Assign Picture to Single Option:</label>
+                <select id="single-option-select"></select>
+                <input type="file" id="single-image-upload" accept="image/*">
+            </div>
+
+            <div class="control-box">
+                <label for="bg-upload">3. Static Full-Wheel Background Image / GIF:</label>
+                <input type="file" id="bg-upload" accept="image/*">
+            </div>
+
+            <div class="control-box">
+                <label for="json-upload">4. Load JSON File Manually:</label>
                 <input type="file" id="json-upload" accept=".json">
             </div>
         </div>
